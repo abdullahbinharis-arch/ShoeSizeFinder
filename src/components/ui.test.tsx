@@ -1,0 +1,33 @@
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { ChoiceCard } from './ChoiceCard';
+import { PrimaryButton } from './PrimaryButton';
+import { StepShell } from './StepShell';
+
+test('PrimaryButton renders label and click handler', async () => {
+  const user = userEvent.setup();
+  let clicked = false;
+  render(<PrimaryButton onClick={() => { clicked = true; }}>Go</PrimaryButton>);
+  await user.click(screen.getByRole('button', { name: 'Go' }));
+  expect(clicked).toBe(true);
+});
+
+test('ChoiceCard shows title, description, and selected state', () => {
+  render(<ChoiceCard title="Men" description="Men's size chart" selected onSelect={() => {}} />);
+  const card = screen.getByRole('button', { name: /Men/ });
+  expect(card).toHaveClass('selected');
+  expect(card).toHaveAttribute('aria-pressed', 'true');
+  expect(screen.getByText("Men's size chart")).toBeInTheDocument();
+});
+
+test('ChoiceCard without description omits the desc element', () => {
+  render(<ChoiceCard title="Women" selected={false} onSelect={() => {}} />);
+  expect(screen.queryByText(/chart/)).not.toBeInTheDocument();
+});
+
+test('StepShell renders title and subtitle', () => {
+  render(<StepShell title="Welcome" subtitle="Pick one"><p>body</p></StepShell>);
+  expect(screen.getByRole('heading', { name: 'Welcome' })).toBeInTheDocument();
+  expect(screen.getByText('Pick one')).toBeInTheDocument();
+  expect(screen.getByText('body')).toBeInTheDocument();
+});
