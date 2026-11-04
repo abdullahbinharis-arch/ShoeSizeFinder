@@ -3,6 +3,7 @@ import ArMeasureStep from './components/ArMeasureStep';
 import { ManualEntryStep } from './components/ManualEntryStep';
 import { MethodStep } from './components/MethodStep';
 import { PhotoMeasureStep } from './components/PhotoMeasureStep';
+import { ResultsStep } from './components/ResultsStep';
 import { ShapeQuizStep } from './components/ShapeQuizStep';
 import { WelcomeStep } from './components/WelcomeStep';
 import { isArSupported } from './lib/webxr';
@@ -33,6 +34,20 @@ export default function App() {
     }
   };
 
+  const finalMeasurement =
+    measurements.left && measurements.right
+      ? (measurements.left.lengthMm >= measurements.right.lengthMm ? measurements.left : measurements.right)
+      : (measurements.left ?? measurements.right);
+
+  const resetWizard = () => {
+    setStep('welcome');
+    setGender('men');
+    setBothFeet(false);
+    setMeasurements({});
+    setActiveFoot('left');
+    setShapeAnswers({});
+  };
+
   return (
     <>
       {step === 'welcome' ? (
@@ -49,7 +64,9 @@ export default function App() {
       {step === 'photo' ? <PhotoMeasureStep side={activeFoot} onComplete={handleMeasured} /> : null}
       {step === 'ar' ? <ArMeasureStep side={activeFoot} onFailed={() => setStep('method')} onComplete={handleMeasured} /> : null}
       {step === 'shape' ? <ShapeQuizStep onComplete={(a) => { setShapeAnswers(a); setStep('results'); }} onSkip={() => setStep('results')} /> : null}
-      {step === 'results' ? <p>TODO step: results</p> : null}
+      {step === 'results' && finalMeasurement ? (
+        <ResultsStep gender={gender} measurement={finalMeasurement} shape={shapeAnswers} onRestart={resetWizard} />
+      ) : null}
     </>
   );
 }
