@@ -1,0 +1,24 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f6f7f9; color: #1c2330; }
+#root { max-width: 560px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 1.5rem; }
+.step { display: flex; flex-direction: column; gap: 16px; }
+.step-title { font-size: 1.25rem; font-weight: 700; margin: 0; }
+.step-sub { color: #5a6472; margin: 0; }
+.btn-primary { background: #1c2330; color: #fff; border: none; border-radius: 10px; padding: 14px 20px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-secondary { background: transparent; color: #1c2330; border: 1px solid #c9d0da; border-radius: 10px; padding: 12px 20px; font-size: 1rem; cursor: pointer; }
+.choice-card { display: flex; flex-direction: column; gap: 4px; text-align: left; background: #fff; border: 2px solid #e2e7ee; border-radius: 12px; padding: 16px; cursor: pointer; font-size: 1rem; }
+.choice-card.selected { border-color: #1c2330; }
+.choice-title { font-weight: 700; }
+.choice-desc { color: #5a6472; font-size: 0.9rem; }
+.choice-group { display: flex; flex-direction: column; gap: 8px; }
+.choice-group-label { font-weight: 600; margin: 0; }
+.text-input { border: 2px solid #c9d0da; border-radius: 10px; padding: 14px; font-size: 1.1rem; width: 100%; }
+.error-text { color: #b3261e; margin: 0; }
+.result-card { background: #fff; border: 2px solid #e2e7ee; border-radius: 12px; padding: 16px; }
+.result-size { font-size: 1.6rem; font-weight: 800; margin: 0; }
+.tap-image-wrap { position: relative; width: 100%; }
+.tap-image-wrap img { width: 100%; display: block; border-radius: 12px; }
+.tap-marker { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #00b39a; border: 3px solid #fff; transform: translate(-50%, -50%); pointer-events: none; box-shadow: 0 0 0 2px rgba(0,0,0,0.3); }
+.measure-readout { font-size: 1.15rem; font-weight: 700; margin: 0; }
