@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import ArMeasureStep from './components/ArMeasureStep';
 import { ManualEntryStep } from './components/ManualEntryStep';
 import { MethodStep } from './components/MethodStep';
 import { PhotoMeasureStep } from './components/PhotoMeasureStep';
@@ -45,7 +46,7 @@ export default function App() {
       {step === 'method' ? <MethodStep arSupported={arSupported} onSelect={(m) => setStep(m)} /> : null}
       {step === 'manual' ? <ManualEntryStep side={activeFoot} onComplete={handleMeasured} /> : null}
       {step === 'photo' ? <PhotoMeasureStep side={activeFoot} onComplete={handleMeasured} /> : null}
-      {step === 'ar' ? <p>TODO step: ar</p> : null}
+      {step === 'ar' ? <ArMeasureStep side={activeFoot} onFailed={() => setStep('method')} onComplete={handleMeasured} /> : null}
       {step === 'shape' ? <p>TODO step: shape</p> : null}
       {step === 'results' ? <p>TODO step: results</p> : null}
     </>
