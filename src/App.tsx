@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ManualEntryStep } from './components/ManualEntryStep';
 import { MethodStep } from './components/MethodStep';
 import { WelcomeStep } from './components/WelcomeStep';
 import { isArSupported } from './lib/webxr';
@@ -41,7 +42,7 @@ export default function App() {
         />
       ) : null}
       {step === 'method' ? <MethodStep arSupported={arSupported} onSelect={(m) => setStep(m)} /> : null}
-      {step === 'manual' ? <p>TODO step: manual</p> : null}
+      {step === 'manual' ? <ManualEntryStep side={activeFoot} onComplete={handleMeasured} /> : null}
       {step === 'photo' ? <p>TODO step: photo</p> : null}
       {step === 'ar' ? <p>TODO step: ar</p> : null}
       {step === 'shape' ? <p>TODO step: shape</p> : null}

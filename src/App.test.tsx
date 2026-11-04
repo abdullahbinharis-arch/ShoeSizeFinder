@@ -17,7 +17,7 @@ test('welcome asks gender then shows measurement methods', async () => {
   expect(screen.getByRole('button', { name: /measure from a photo/i })).toBeInTheDocument();
   expect(screen.queryByRole('button', { name: /AR measure/i })).not.toBeInTheDocument();
   await user.click(screen.getByRole('button', { name: /type my measurement/i }));
-  expect(screen.getByText('TODO step: manual')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /type your measurement/i })).toBeInTheDocument();
 });
 
 test('Next is disabled until a gender is chosen', async () => {
@@ -35,5 +35,5 @@ test('both-feet toggle routes back to method step for the second foot', async ()
   await user.click(screen.getByRole('button', { name: /measure both feet/i }));
   await user.click(screen.getByRole('button', { name: 'Next' }));
   await user.click(screen.getByRole('button', { name: /type my measurement/i }));
-  expect(screen.getByText('TODO step: manual')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /type your measurement/i })).toBeInTheDocument();
 });
