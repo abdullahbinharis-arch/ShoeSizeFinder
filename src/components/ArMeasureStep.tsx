@@ -43,6 +43,7 @@ export default function ArMeasureStep({ side, onFailed, onComplete }: ArMeasureS
         return;
       }
       if (!session || !hitSource || !holderRef.current) {
+        if (session) void session.end();
         setPhase('failed');
         return;
       }
