@@ -3,6 +3,7 @@ import ArMeasureStep from './components/ArMeasureStep';
 import { ManualEntryStep } from './components/ManualEntryStep';
 import { MethodStep } from './components/MethodStep';
 import { PhotoMeasureStep } from './components/PhotoMeasureStep';
+import { ShapeQuizStep } from './components/ShapeQuizStep';
 import { WelcomeStep } from './components/WelcomeStep';
 import { isArSupported } from './lib/webxr';
 import type { FootMeasurement, FootShape, FootSide, Gender, MeasureMethod } from './lib/types';
@@ -47,7 +48,7 @@ export default function App() {
       {step === 'manual' ? <ManualEntryStep side={activeFoot} onComplete={handleMeasured} /> : null}
       {step === 'photo' ? <PhotoMeasureStep side={activeFoot} onComplete={handleMeasured} /> : null}
       {step === 'ar' ? <ArMeasureStep side={activeFoot} onFailed={() => setStep('method')} onComplete={handleMeasured} /> : null}
-      {step === 'shape' ? <p>TODO step: shape</p> : null}
+      {step === 'shape' ? <ShapeQuizStep onComplete={(a) => { setShapeAnswers(a); setStep('results'); }} onSkip={() => setStep('results')} /> : null}
       {step === 'results' ? <p>TODO step: results</p> : null}
     </>
   );
