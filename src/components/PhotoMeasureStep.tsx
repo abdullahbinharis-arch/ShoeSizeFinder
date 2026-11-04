@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { MouseEvent } from 'react';
 import { isPlausibleReference, pxPerMm, pxToMm } from '../lib/calibrate';
 import { pxDistance } from '../lib/distance';
@@ -32,6 +32,12 @@ export function PhotoMeasureStep({ side, onComplete }: PhotoMeasureStepProps) {
   const [error, setError] = useState('');
   const wrapRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    return () => {
+      if (imageUrl) URL.revokeObjectURL(imageUrl);
+    };
+  }, [imageUrl]);
+
   const startOver = useCallback(() => {
     setTaps([]);
     setScale(0);
@@ -48,7 +54,7 @@ export function PhotoMeasureStep({ side, onComplete }: PhotoMeasureStepProps) {
   };
 
   const handleTap = (e: MouseEvent<HTMLDivElement>) => {
-    if (phase !== 'reference' && phase !== 'length' && phase !== 'width') return;
+    if (phase !== 'reference' && phase !== 'width' && !(phase === 'length' && lengthMm === 0)) return;
     const rect = wrapRef.current?.getBoundingClientRect();
     if (!rect) return;
     const point = { x: e.clientX - rect.left, y: e.clientY - rect.top };
