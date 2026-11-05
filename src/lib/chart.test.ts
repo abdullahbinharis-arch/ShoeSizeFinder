@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatSize, lookupSize, sizesForGender } from './chart';
+import { formatSize, lookupSize } from './chart';
 
 describe('lookupSize', () => {
   it('maps 260 mm to US men 9', () => {
@@ -25,16 +25,6 @@ describe('lookupSize', () => {
     expect(lookupSize(150)).toEqual({ status: 'below-range' });
     expect(lookupSize(306)).toEqual({ status: 'above-range' });
     expect(lookupSize(400)).toEqual({ status: 'above-range' });
-  });
-});
-
-describe('sizesForGender', () => {
-  const ok = lookupSize(260);
-  it('returns men sizes for men', () => {
-    expect(sizesForGender(ok as never, 'men')).toEqual({ us: 9, uk: 8 });
-  });
-  it('returns women sizes for women', () => {
-    expect(sizesForGender(ok as never, 'women')).toEqual({ us: 10, uk: 7.5 });
   });
 });
 

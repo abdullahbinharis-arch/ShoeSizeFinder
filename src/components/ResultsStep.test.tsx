@@ -1,40 +1,44 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ResultsStep } from './ResultsStep';
 
-test('shows US and UK sizes for the chosen gender', () => {
+function gridValue(label: string): string | null {
+  const card = screen.getByText(label).closest('.result-card');
+  expect(card).not.toBeNull();
+  const value = within(card as HTMLElement).getByText(/^[0-9.]+$/);
+  return value.textContent;
+}
+
+test('shows all four size columns in the grid', () => {
   render(
     <ResultsStep
-      gender="men"
       measurement={{ lengthMm: 260, source: 'manual' }}
       shape={{}}
       onRestart={() => {}}
     />,
   );
-  expect(screen.getByText(/Based on your larger foot: 26\.0 cm/i)).toBeInTheDocument();
-  expect(screen.getByText('US 9 (men)')).toBeInTheDocument();
-  expect(screen.getByText('UK 8')).toBeInTheDocument();
-  expect(screen.queryByText('US 10 (women)')).not.toBeInTheDocument();
+  expect(screen.getByText(/Based on your foot: 26\.0 cm/i)).toBeInTheDocument();
+  expect(gridValue('US Men')).toBe('9');
+  expect(gridValue('US Women')).toBe('10');
+  expect(gridValue('UK Men')).toBe('8');
+  expect(gridValue('UK Women')).toBe('7.5');
+  expect(screen.getByText(/foot length: 26\.0 cm/i)).toBeInTheDocument();
 });
 
-test('shows women sizes and both US columns', () => {
+test('shows measured width when provided', () => {
   render(
     <ResultsStep
-      gender="women"
-      measurement={{ lengthMm: 260, source: 'manual' }}
+      measurement={{ lengthMm: 260, widthMm: 100, source: 'photo' }}
       shape={{}}
       onRestart={() => {}}
     />,
   );
-  expect(screen.getByText('US 10 (women)')).toBeInTheDocument();
-  expect(screen.getByText('UK 7.5')).toBeInTheDocument();
-  expect(screen.getByText(/US 9 \(men\) · US 10 \(women\)/)).toBeInTheDocument();
+  expect(screen.getByText(/width: 10\.0 cm/i)).toBeInTheDocument();
 });
 
 test('flags between-sizes and shows width adjustment and tips', () => {
   render(
     <ResultsStep
-      gender="men"
       measurement={{ lengthMm: 232, widthMm: 110, source: 'photo' }}
       shape={{ toe: 'greek', width: 'wide', arch: 'high' }}
       onRestart={() => {}}
@@ -50,14 +54,13 @@ test('flags between-sizes and shows width adjustment and tips', () => {
 test('shows out-of-range message instead of sizes', () => {
   render(
     <ResultsStep
-      gender="men"
       measurement={{ lengthMm: 140, source: 'manual' }}
       shape={{}}
       onRestart={() => {}}
     />,
   );
   expect(screen.getByText(/outside the standard adult chart/i)).toBeInTheDocument();
-  expect(screen.queryByText(/^US /)).not.toBeInTheDocument();
+  expect(screen.queryByText('US Men')).not.toBeInTheDocument();
 });
 
 test('restart button calls onRestart', async () => {
@@ -65,7 +68,6 @@ test('restart button calls onRestart', async () => {
   const onRestart = vi.fn();
   render(
     <ResultsStep
-      gender="men"
       measurement={{ lengthMm: 260, source: 'manual' }}
       shape={{}}
       onRestart={onRestart}

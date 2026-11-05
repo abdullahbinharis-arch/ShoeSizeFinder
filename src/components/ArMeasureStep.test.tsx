@@ -5,7 +5,7 @@ import ArMeasureStep from './ArMeasureStep';
 test('shows starting state, then failure UI when the session cannot start', async () => {
   const user = userEvent.setup();
   const onFailed = vi.fn();
-  render(<ArMeasureStep side="left" onFailed={onFailed} onComplete={() => {}} />);
+  render(<ArMeasureStep onFailed={onFailed} onComplete={() => {}} />);
   expect(screen.getByText(/starting AR/i)).toBeInTheDocument();
   expect(await screen.findByText(/couldn't start AR/i)).toBeInTheDocument();
   await user.click(screen.getByRole('button', { name: /back/i }));

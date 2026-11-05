@@ -3,19 +3,18 @@ import * as THREE from 'three';
 import { mmBetweenPoints } from '../lib/distance';
 import { isPlausibleLength, roundToTenthMm } from '../lib/photoMeasure';
 import { hitTestSourceFromSession, requestArSession } from '../lib/webxr';
-import type { FootMeasurement, FootSide } from '../lib/types';
+import type { FootMeasurement } from '../lib/types';
 import { PrimaryButton } from './PrimaryButton';
 import { StepShell } from './StepShell';
 
 type Phase = 'starting' | 'placing' | 'failed';
 
 interface ArMeasureStepProps {
-  side: FootSide;
   onFailed: () => void;
   onComplete: (measurement: FootMeasurement) => void;
 }
 
-export default function ArMeasureStep({ side, onFailed, onComplete }: ArMeasureStepProps) {
+export default function ArMeasureStep({ onFailed, onComplete }: ArMeasureStepProps) {
   const [phase, setPhase] = useState<Phase>('starting');
   const [status, setStatus] = useState('Move your phone slowly to detect the floor, then tap to mark your heel.');
   const [lengthMm, setLengthMm] = useState(0);
@@ -154,7 +153,7 @@ export default function ArMeasureStep({ side, onFailed, onComplete }: ArMeasureS
   }
 
   return (
-    <StepShell title={`AR measurement — ${side} foot`} subtitle={status}>
+    <StepShell title="AR measurement" subtitle={status}>
       {phase === 'starting' ? <p className="step-sub">Starting AR…</p> : null}
       <div ref={holderRef} />
       {lengthMm > 0 ? <p className="measure-readout">Length: {(lengthMm / 10).toFixed(1)} cm</p> : null}

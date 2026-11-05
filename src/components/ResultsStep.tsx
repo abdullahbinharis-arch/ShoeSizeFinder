@@ -1,35 +1,47 @@
-import { formatSize, lookupSize, sizesForGender } from '../lib/chart';
+import { formatSize, lookupSize } from '../lib/chart';
 import { getTips } from '../lib/tips';
-import type { FootMeasurement, FootShape, Gender } from '../lib/types';
+import type { FootMeasurement, FootShape } from '../lib/types';
 import { PrimaryButton } from './PrimaryButton';
 import { StepShell } from './StepShell';
 
 interface ResultsStepProps {
-  gender: Gender;
   measurement: FootMeasurement;
   shape: Partial<FootShape>;
   onRestart: () => void;
 }
 
-export function ResultsStep({ gender, measurement, shape, onRestart }: ResultsStepProps) {
+export function ResultsStep({ measurement, shape, onRestart }: ResultsStepProps) {
   const result = lookupSize(measurement.lengthMm);
   const tips = getTips(shape);
   const widthWide = shape.width === 'wide';
   const widthNarrow = shape.width === 'narrow';
 
   return (
-    <StepShell title="Your shoe size" subtitle={`Based on your larger foot: ${(measurement.lengthMm / 10).toFixed(1)} cm`}>
+    <StepShell title="Your shoe size" subtitle={`Based on your foot: ${(measurement.lengthMm / 10).toFixed(1)} cm`}>
       {result.status !== 'ok' ? (
         <p className="step-sub">That length is outside the standard adult chart — double-check your measurement.</p>
       ) : (
         <>
-          <div className="result-card">
-            <p className="result-size">US {formatSize(sizesForGender(result, gender).us)} ({gender})</p>
-            <p className="step-sub">UK {formatSize(sizesForGender(result, gender).uk)}</p>
-            <p className="step-sub">US {formatSize(result.usMen)} (men) · US {formatSize(result.usWomen)} (women)</p>
-            <p className="step-sub">Foot length: {(measurement.lengthMm / 10).toFixed(1)} cm</p>
-            {measurement.widthMm ? <p className="step-sub">Width: {(measurement.widthMm / 10).toFixed(1)} cm</p> : null}
+          <div className="result-grid">
+            <div className="result-card">
+              <p className="choice-group-label">US Men</p>
+              <p className="result-size">{formatSize(result.usMen)}</p>
+            </div>
+            <div className="result-card">
+              <p className="choice-group-label">US Women</p>
+              <p className="result-size">{formatSize(result.usWomen)}</p>
+            </div>
+            <div className="result-card">
+              <p className="choice-group-label">UK Men</p>
+              <p className="result-size">{formatSize(result.ukMen)}</p>
+            </div>
+            <div className="result-card">
+              <p className="choice-group-label">UK Women</p>
+              <p className="result-size">{formatSize(result.ukWomen)}</p>
+            </div>
           </div>
+          <p className="step-sub">Foot length: {(measurement.lengthMm / 10).toFixed(1)} cm</p>
+          {measurement.widthMm ? <p className="step-sub">Width: {(measurement.widthMm / 10).toFixed(1)} cm</p> : null}
           {result.betweenSizes ? (
             <p className="step-sub">You're between sizes — round up for comfort and walking, down for a snug athletic fit.</p>
           ) : null}

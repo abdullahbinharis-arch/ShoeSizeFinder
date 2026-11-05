@@ -1,5 +1,3 @@
-import type { Gender } from './types';
-
 export type SizeLookupResult =
   | { status: 'ok'; usMen: number; usWomen: number; ukMen: number; ukWomen: number; betweenSizes: boolean }
   | { status: 'below-range' }
@@ -46,15 +44,6 @@ export function lookupSize(lengthMm: number): SizeLookupResult {
     ukWomen: row[4],
     betweenSizes,
   };
-}
-
-export function sizesForGender(
-  result: Extract<SizeLookupResult, { status: 'ok' }>,
-  gender: Gender,
-): { us: number; uk: number } {
-  return gender === 'men'
-    ? { us: result.usMen, uk: result.ukMen }
-    : { us: result.usWomen, uk: result.ukWomen };
 }
 
 export function formatSize(size: number): string {

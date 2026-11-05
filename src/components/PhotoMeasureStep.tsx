@@ -3,7 +3,7 @@ import type { MouseEvent } from 'react';
 import { isPlausibleReference, pxPerMm, pxToMm } from '../lib/calibrate';
 import { pxDistance } from '../lib/distance';
 import { isPlausibleLength, roundToTenthMm } from '../lib/photoMeasure';
-import type { FootMeasurement, FootSide, Point } from '../lib/types';
+import type { FootMeasurement, Point } from '../lib/types';
 import { PrimaryButton } from './PrimaryButton';
 import { StepShell } from './StepShell';
 
@@ -17,11 +17,10 @@ const REFERENCES = [
 ];
 
 interface PhotoMeasureStepProps {
-  side: FootSide;
   onComplete: (measurement: FootMeasurement) => void;
 }
 
-export function PhotoMeasureStep({ side, onComplete }: PhotoMeasureStepProps) {
+export function PhotoMeasureStep({ onComplete }: PhotoMeasureStepProps) {
   const [phase, setPhase] = useState<Phase>('source');
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [refMm, setRefMm] = useState(REFERENCES[0].mm);
@@ -107,7 +106,7 @@ export function PhotoMeasureStep({ side, onComplete }: PhotoMeasureStepProps) {
 
   if (phase === 'source') {
     return (
-      <StepShell title={`Photo measurement — ${side} foot`} subtitle="We'll guide you through one photo. Bare foot, a credit card or paper beside it.">
+      <StepShell title="Photo measurement" subtitle="We'll guide you through one photo. Bare foot, a credit card or paper beside it.">
         <p className="step-sub">Your photo never leaves your device.</p>
         <label className="choice-card">
           <span className="choice-title">Take a photo</span>
@@ -141,7 +140,7 @@ export function PhotoMeasureStep({ side, onComplete }: PhotoMeasureStepProps) {
       <StepShell title="Get the shot right" subtitle="Accuracy depends on this — 20 seconds of care beats a re-do.">
         <ul className="step-sub">
           <li>Take a top-down photo: phone directly above, parallel to the floor.</li>
-          <li>Bare foot, standing with full weight on it.</li>
+          <li>Bare foot, standing with full weight on it — measure your larger foot if you know which it is.</li>
           <li>Place a credit card or A4/Letter paper flat beside your foot, fully in frame.</li>
           <li>Good light, no shadows across the foot.</li>
         </ul>
@@ -159,7 +158,7 @@ export function PhotoMeasureStep({ side, onComplete }: PhotoMeasureStepProps) {
   }
 
   return (
-    <StepShell title={`Tap on the photo — ${side} foot`} subtitle={instruction}>
+    <StepShell title="Tap on the photo" subtitle={instruction}>
       <label>
         <span className="choice-group-label">Reference used</span>
         <select

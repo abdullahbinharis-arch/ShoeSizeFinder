@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import type { FootMeasurement, FootSide } from '../lib/types';
+import type { FootMeasurement } from '../lib/types';
 import { PrimaryButton } from './PrimaryButton';
 import { StepShell } from './StepShell';
 
 interface ManualEntryStepProps {
-  side: FootSide;
   onComplete: (measurement: FootMeasurement) => void;
 }
 
-export function ManualEntryStep({ side, onComplete }: ManualEntryStepProps) {
+export function ManualEntryStep({ onComplete }: ManualEntryStepProps) {
   const [value, setValue] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -28,7 +27,7 @@ export function ManualEntryStep({ side, onComplete }: ManualEntryStepProps) {
 
   return (
     <StepShell
-      title={`Type your measurement — ${side} foot`}
+      title="Type your measurement"
       subtitle="Measure from the back of your heel to the tip of your longest toe while standing, then enter it below."
     >
       <label>

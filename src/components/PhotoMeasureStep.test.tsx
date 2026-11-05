@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { PhotoMeasureStep } from './PhotoMeasureStep';
 
 test('source phase shows capture options and the privacy line', () => {
-  render(<PhotoMeasureStep side="left" onComplete={() => {}} />);
+  render(<PhotoMeasureStep onComplete={() => {}} />);
   expect(screen.getByText('Your photo never leaves your device.')).toBeInTheDocument();
   expect(screen.getByLabelText(/take a photo/i)).toBeInTheDocument();
   expect(screen.getByLabelText(/upload a photo/i)).toBeInTheDocument();
@@ -11,7 +11,7 @@ test('source phase shows capture options and the privacy line', () => {
 
 test('shows the capture guide after choosing a photo', async () => {
   const user = userEvent.setup();
-  render(<PhotoMeasureStep side="left" onComplete={() => {}} />);
+  render(<PhotoMeasureStep onComplete={() => {}} />);
   const file = new File(['fake'], 'foot.jpg', { type: 'image/jpeg' });
   fireEvent.change(screen.getByLabelText(/upload a photo/i), { target: { files: [file] } });
   expect(await screen.findByText(/top-down photo/i)).toBeInTheDocument();
@@ -21,7 +21,7 @@ test('shows the capture guide after choosing a photo', async () => {
 
 test('rejects a photo whose computed length is implausible and offers start-over', async () => {
   const user = userEvent.setup();
-  render(<PhotoMeasureStep side="left" onComplete={() => {}} />);
+  render(<PhotoMeasureStep onComplete={() => {}} />);
   const file = new File(['fake'], 'foot.jpg', { type: 'image/jpeg' });
   fireEvent.change(screen.getByLabelText(/upload a photo/i), { target: { files: [file] } });
   await user.click(await screen.findByRole('button', { name: /start measuring/i }));
@@ -32,7 +32,7 @@ test('rejects a photo whose computed length is implausible and offers start-over
 
 test('stray taps after a locked length do not change the displayed length', async () => {
   const user = userEvent.setup();
-  const { container } = render(<PhotoMeasureStep side="left" onComplete={() => {}} />);
+  const { container } = render(<PhotoMeasureStep onComplete={() => {}} />);
   const file = new File(['fake'], 'foot.jpg', { type: 'image/jpeg' });
   fireEvent.change(screen.getByLabelText(/upload a photo/i), { target: { files: [file] } });
   await user.click(await screen.findByRole('button', { name: /start measuring/i }));
