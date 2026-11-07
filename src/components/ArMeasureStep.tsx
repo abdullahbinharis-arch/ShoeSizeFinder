@@ -4,7 +4,7 @@ import { advanceArScan, initialArScanSnapshot } from '../lib/arScan';
 import type { ArScanEvent, ArScanSnapshot } from '../lib/arScan';
 import { mmBetweenPoints } from '../lib/distance';
 import { roundToTenthMm } from '../lib/photoMeasure';
-import { hitTestSourceFromSession, requestArSession } from '../lib/webxr';
+import { hitTestSourceFromSession, requestArSession, subscribeToSessionEnd } from '../lib/webxr';
 import type { FootMeasurement } from '../lib/types';
 import { ArScanOverlay } from './ArScanOverlay';
 import { PrimaryButton } from './PrimaryButton';
@@ -54,9 +54,15 @@ export default function ArMeasureStep({ onFailed, onComplete }: ArMeasureStepPro
     let renderer: THREE.WebGLRenderer | null = null;
     let session: XRSession | null = null;
     let onSelect: (() => void) | null = null;
+    let unsubscribeSessionEnd: (() => void) | null = null;
 
     (async () => {
       session = await requestArSession();
+      if (session) {
+        unsubscribeSessionEnd = subscribeToSessionEnd(session, () => {
+          if (!disposed) setStartup('failed');
+        });
+      }
       const hitSource = session ? await hitTestSourceFromSession(session) : null;
       if (disposed) {
         if (session) void session.end();
@@ -170,6 +176,7 @@ export default function ArMeasureStep({ onFailed, onComplete }: ArMeasureStepPro
         renderer.dispose();
         renderer.domElement.parentElement?.removeChild(renderer.domElement);
       }
+      unsubscribeSessionEnd?.();
       if (session) void session.end();
       markerGroupRef.current = null;
     };

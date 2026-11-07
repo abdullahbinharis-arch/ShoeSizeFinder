@@ -21,11 +21,19 @@ describe('isPlausibleWidth', () => {
   it('rejects width checks when the length itself is implausible', () => {
     expect(isPlausibleWidth(90, 400)).toBe(false);
   });
+
+  it('rejects a width above the absolute maximum even when the ratio passes', () => {
+    expect(isPlausibleWidth(165, 350)).toBe(false);
+  });
 });
 
 describe('compareViewLengths', () => {
   it('averages readings whose difference is at most 5 mm', () => {
     expect(compareViewLengths(260, 264)).toEqual({ status: 'matching', lengthMm: 262 });
+  });
+
+  it('treats exactly 5.0 mm apart readings as matching', () => {
+    expect(compareViewLengths(260, 265)).toEqual({ status: 'matching', lengthMm: 262.5 });
   });
 
   it('rounds the averaged reading to 0.1 mm', () => {

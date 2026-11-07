@@ -33,3 +33,8 @@ export async function hitTestSourceFromSession(session: XRSession): Promise<XRHi
     return null;
   }
 }
+
+export function subscribeToSessionEnd(session: XRSession, onEnded: () => void): () => void {
+  session.addEventListener('end', onEnded);
+  return () => session.removeEventListener('end', onEnded);
+}

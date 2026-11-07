@@ -99,6 +99,8 @@ export function advanceArScan(snapshot: ArScanSnapshot, event: ArScanEvent): ArS
       if (event.type === 'skip-width') {
         return accept(snapshot, { state: 'angled-length' });
       }
+      // Deliberate implicit width skip: the user already moved to the angled view
+      // without tapping two width points, so treat this reading as skipping width.
       if (event.type === 'angled-length') {
         return handleAngledLength(snapshot, event.lengthMm);
       }

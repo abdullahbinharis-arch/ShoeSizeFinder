@@ -62,6 +62,15 @@ describe('advanceArScan', () => {
     expect(result.snapshot.widthMm).toBeNull();
   });
 
+  it('treats an angled reading during the width step as an implicit width skip', () => {
+    const withLength = advanceArScan(readyScan(), { type: 'top-length', lengthMm: 260 }).snapshot;
+    const result = advanceArScan(withLength, { type: 'angled-length', lengthMm: 264 });
+    expect(result.accepted).toBe(true);
+    expect(result.snapshot.state).toBe('complete');
+    expect(result.snapshot.widthMm).toBeNull();
+    expect(result.measurement).toEqual({ lengthMm: 262, widthMm: undefined, source: 'ar' });
+  });
+
   it('completes with the average when the angled reading matches within 5 mm', () => {
     let snapshot = readyScan();
     snapshot = advanceArScan(snapshot, { type: 'top-length', lengthMm: 260 }).snapshot;
