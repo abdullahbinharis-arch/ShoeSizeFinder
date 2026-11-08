@@ -5,6 +5,7 @@ import { WelcomeStep } from './WelcomeStep';
 test('shows the global retail brand mark', () => {
   render(<WelcomeStep arSupported={false} onSelect={() => {}} />);
   expect(screen.getByTestId('brand-mark')).toHaveTextContent('ShoeSizeFinder');
+  expect(screen.getByRole('main')).toBeInTheDocument();
 });
 
 test('supported devices show premium scan and type-in method cards', () => {

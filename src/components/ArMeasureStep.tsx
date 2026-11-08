@@ -79,7 +79,7 @@ export default function ArMeasureStep({ onFailed, onComplete }: ArMeasureStepPro
         renderer.setPixelRatio(window.devicePixelRatio);
 
         const width = holderRef.current.clientWidth || window.innerWidth;
-        const height = Math.min(window.innerHeight * 0.6, 420);
+        const height = holderRef.current.clientHeight || Math.min(window.innerHeight * 0.6, 420);
         renderer.setSize(width, height);
         renderer.xr.enabled = true;
         holderRef.current.appendChild(renderer.domElement);

@@ -1,4 +1,5 @@
 :root {
+  color-scheme: dark;
   --bg-0: #070a0f;
   --bg-1: #101720;
   --surface: rgba(255, 255, 255, 0.065);
@@ -17,13 +18,11 @@
 * { box-sizing: border-box; }
 
 html {
-  min-width: 320px;
   background: var(--bg-0);
 }
 
 body {
   margin: 0;
-  min-width: 320px;
   min-height: 100vh;
   color: var(--text);
   background:
@@ -76,6 +75,8 @@ button { -webkit-tap-highlight-color: transparent; }
   flex-direction: column;
   gap: 18px;
 }
+
+.welcome-step { gap: 0; }
 
 .step-title {
   margin: 0;
@@ -189,6 +190,10 @@ button { -webkit-tap-highlight-color: transparent; }
   outline: none;
 }
 
+.choice-card:focus-visible {
+  box-shadow: 0 0 0 3px var(--bg-0), 0 0 0 6px var(--accent), 0 16px 40px rgba(0, 0, 0, 0.22);
+}
+
 .choice-card:active { transform: translateY(0); }
 .choice-card.selected { border-color: var(--accent); }
 
@@ -206,7 +211,7 @@ button { -webkit-tap-highlight-color: transparent; }
 }
 
 .choice-card::after {
-  content: "›";
+  content: "›" / "";
   color: var(--accent);
   font-size: 1.6rem;
   line-height: 1;
@@ -238,6 +243,10 @@ button { -webkit-tap-highlight-color: transparent; }
 
 .btn-primary:hover { filter: brightness(1.06); transform: translateY(-1px); }
 .btn-primary:active { transform: translateY(0); }
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--bg-0), 0 0 0 6px var(--accent), 0 16px 34px rgba(53, 224, 194, 0.22);
+}
 .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 
 .btn-secondary {
@@ -258,6 +267,10 @@ button { -webkit-tap-highlight-color: transparent; }
   border-color: rgba(255, 255, 255, 0.26);
   background: var(--surface-strong);
   outline: none;
+}
+
+.btn-secondary:focus-visible {
+  box-shadow: 0 0 0 3px var(--bg-0), 0 0 0 6px var(--accent);
 }
 
 .text-input,

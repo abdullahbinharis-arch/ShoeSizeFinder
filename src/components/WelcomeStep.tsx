@@ -13,6 +13,7 @@ export function WelcomeStep({ arSupported, onSelect }: WelcomeStepProps) {
       <header className="brand-header">
         <BrandMark />
       </header>
+      <main className="step welcome-step">
       <section className="hero-panel" aria-labelledby="welcome-title">
         <p className="hero-kicker">Premium fit guide</p>
         <h1 id="welcome-title" className="step-title">Find your true shoe size</h1>
@@ -31,12 +32,14 @@ export function WelcomeStep({ arSupported, onSelect }: WelcomeStepProps) {
           <>
             <ChoiceCard
               selected={false}
+              toggle={false}
               title="Scan my foot"
               description="Camera-guided scan with instant US and UK sizes"
               onSelect={() => onSelect('ar')}
             />
             <ChoiceCard
               selected={false}
+              toggle={false}
               title="Type my measurement"
               description="Already know your foot length? Enter it in centimeters"
               onSelect={() => onSelect('manual')}
@@ -46,12 +49,14 @@ export function WelcomeStep({ arSupported, onSelect }: WelcomeStepProps) {
           <>
             <ChoiceCard
               selected={false}
+              toggle={false}
               title="Type my measurement"
               description="Enter your foot length in centimeters"
               onSelect={() => onSelect('manual')}
             />
             <ChoiceCard
               selected={false}
+              toggle={false}
               title="Take a photo"
               description="Use a card or paper reference beside your foot"
               onSelect={() => onSelect('photo')}
@@ -61,6 +66,7 @@ export function WelcomeStep({ arSupported, onSelect }: WelcomeStepProps) {
       </section>
 
       <p className="privacy-note">Private on-device measurement · No account required</p>
+      </main>
     </>
   );
 }

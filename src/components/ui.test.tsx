@@ -26,6 +26,11 @@ test('ChoiceCard without description omits the desc element', () => {
   expect(screen.queryByText(/chart/)).not.toBeInTheDocument();
 });
 
+test('ChoiceCard can render as a one-shot action without toggle semantics', () => {
+  render(<ChoiceCard title="Scan my foot" selected={false} toggle={false} onSelect={() => {}} />);
+  expect(screen.getByRole('button', { name: /scan my foot/i })).not.toHaveAttribute('aria-pressed');
+});
+
 test('StepShell renders title and subtitle', () => {
   render(<StepShell title="Welcome" subtitle="Pick one"><p>body</p></StepShell>);
   expect(screen.getByRole('heading', { name: 'Welcome' })).toBeInTheDocument();
