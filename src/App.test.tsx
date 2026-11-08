@@ -31,8 +31,8 @@ test('welcome promotes AR and hides photo when navigator.xr supports immersive-a
 
   render(<App />);
 
-  expect(await screen.findByRole('button', { name: 'Scan my foot' })).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: 'Type my measurement' })).toBeInTheDocument();
-  expect(screen.queryByRole('button', { name: 'Take a photo' })).not.toBeInTheDocument();
+  expect(await screen.findByRole('button', { name: /scan my foot/i })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /type my measurement/i })).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /take a photo/i })).not.toBeInTheDocument();
   vi.unstubAllGlobals();
 });

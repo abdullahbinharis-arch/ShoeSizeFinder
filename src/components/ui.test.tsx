@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import App from '../App';
 import { ChoiceCard } from './ChoiceCard';
 import { PrimaryButton } from './PrimaryButton';
 import { StepShell } from './StepShell';
@@ -30,4 +31,9 @@ test('StepShell renders title and subtitle', () => {
   expect(screen.getByRole('heading', { name: 'Welcome' })).toBeInTheDocument();
   expect(screen.getByText('Pick one')).toBeInTheDocument();
   expect(screen.getByText('body')).toBeInTheDocument();
+});
+
+test('app shell renders the neutral brand header', () => {
+  render(<App />);
+  expect(screen.getByTestId('brand-mark')).toHaveTextContent('ShoeSizeFinder');
 });
